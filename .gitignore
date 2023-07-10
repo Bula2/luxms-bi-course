@@ -1,0 +1,7 @@
+package-lock.json
+node_modules
+.idea
+authConfig.json
+dist
+yarn-error.log
+.DS_Store
