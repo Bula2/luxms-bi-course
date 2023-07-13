@@ -5,6 +5,7 @@ import { Theme, presetGpnDefault } from "@consta/uikit/Theme";
 import { Combobox } from "@consta/uikit/Combobox";
 import { Button } from "@consta/uikit/Button";
 import { Layout } from "@consta/uikit/Layout";
+import { Loader } from "@consta/uikit/Loader";
 import { IconForward } from "@consta/icons/IconForward";
 import { IconClose } from "@consta/icons/IconClose";
 import { getKoobDataByCfg } from "../utils/requests";
@@ -18,6 +19,7 @@ const MyManagerDashboard = () => {
   const [organization, setOrganization] = useState<any[] | null>();
   const [object, setObject] = useState<any[] | null>();
   const [filters, setFilters] = useState<any>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     getKoobDataByCfg(
@@ -45,6 +47,7 @@ const MyManagerDashboard = () => {
             return { label: item, id: index, key: "object_name" };
           })
         );
+        setIsLoading(false);
       }
     );
   }, []);
@@ -87,35 +90,41 @@ const MyManagerDashboard = () => {
 
   return (
     <Theme preset={presetGpnDefault} className="MyManagerLayout">
-      <Combobox
-        placeholder="Организация"
-        items={organizationList}
-        value={organization}
-        onChange={({ value }) => onOrganizationClick(value)}
-        multiple
-        style={{ zIndex: 1000 }}
-      />
-      <Combobox
-        placeholder="Тип объекта"
-        items={objectList}
-        value={object}
-        onChange={({ value }) => onObjectClick(value)}
-        multiple
-        style={{ zIndex: 1000 }}
-      />
-      <Layout className="MyManagerButtons">
-        <Button
-          label="Применить фильтры"
-          iconRight={IconForward}
-          onClick={onClick}
-        />
-        <Button
-          view="secondary"
-          label="Сбросить фильтры"
-          iconRight={IconClose}
-          onClick={onResetClick}
-        />
-      </Layout>
+      {isLoading ? (
+        <Loader className="Preloader" />
+      ) : (
+        <>
+          <Combobox
+            placeholder="Организация"
+            items={organizationList}
+            value={organization}
+            onChange={({ value }) => onOrganizationClick(value)}
+            multiple
+            style={{ zIndex: 1000 }}
+          />
+          <Combobox
+            placeholder="Тип объекта"
+            items={objectList}
+            value={object}
+            onChange={({ value }) => onObjectClick(value)}
+            multiple
+            style={{ zIndex: 1000 }}
+          />
+          <Layout className="MyManagerButtons">
+            <Button
+              label="Применить фильтры"
+              iconRight={IconForward}
+              onClick={onClick}
+            />
+            <Button
+              view="secondary"
+              label="Сбросить фильтры"
+              iconRight={IconClose}
+              onClick={onResetClick}
+            />
+          </Layout>
+        </>
+      )}
     </Theme>
   );
 };
