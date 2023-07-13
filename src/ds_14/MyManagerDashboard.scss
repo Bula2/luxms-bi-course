@@ -1,0 +1,14 @@
+.MyManagerLayout {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.MyManagerButtons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
